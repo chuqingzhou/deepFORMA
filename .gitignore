@@ -1,0 +1,25 @@
+# Outputs (do not commit)
+atlas/
+predictions_connected/
+wells_h5/
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+
+# Environment
+.venv/
+.venv_test/
+venv/
+
+# Demo outputs (local only)
+demo_output/
+demo_output2/
+
+# Build
+*.egg-info/
+dist/
+build/
+

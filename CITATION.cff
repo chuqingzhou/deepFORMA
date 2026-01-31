@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+title: deepFORMA
+message: "If you use this software, please cite it."
+type: software
+authors:
+  - family-names: Zhang
+    given-names: Jiachi
+repository-code: "https://github.com/chuqingzhou/deepFORMA"
+url: "https://github.com/chuqingzhou/deepFORMA"
+license: MIT
+version: 0.1.0
+date-released: "2026-01-29"
