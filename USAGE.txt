@@ -1,0 +1,42 @@
+deepFORMA (code-only release)
+
+1) Install dependencies
+   - Create an environment (recommended) and install:
+     pip install -r requirements.txt
+   - Install this package in editable mode:
+     pip install -e .
+
+2) Minimal runnable checks (smoke tests)
+   - Smoke test 1: import
+     python -c "import deepforma; print(deepforma.__version__)"
+   - Smoke test 2: script CLI
+     python scripts/build_database_final_fig56.py --help
+     python scripts/train_transformer_kfold.py --help
+     python scripts/convert_nrrd_to_h5.py --help
+   - Smoke test 3: demo (no data/weights required)
+     python scripts/build_database_final_fig56.py --demo --out-root demo_output
+
+3) Build the database (Figure 5/6 definition)
+   - You need:
+     - Raw MRI NRRD volumes (one file per sample): <RAW_DIR>/<Raw_Data_ID>.nrrd
+     - An existing connected-id atlas Excel that contains 'Raw_Data_ID' column
+       (used to define the sample list and carry metadata columns)
+     - A trained model checkpoint (.pt)
+
+   Example:
+     python scripts/build_database_final_fig56.py \
+       --model-path /ABS/PATH/TO/best_transformer.pt \
+       --raw-dir /ABS/PATH/TO/RAW_NRRD_DIR \
+       --atlas-existing /ABS/PATH/TO/FORMA_Atlas_data0124_connect_id.xlsx \
+       --out-root /ABS/PATH/TO/OUTPUT_DIR
+
+4) Outputs
+   - <out-root>/predictions_connected/<sample>_connected.h5
+   - <out-root>/wells_h5/<sample>-C<id>.h5
+   - <out-root>/atlas/_atlas_rows_partial.csv (resumable)
+   - <out-root>/atlas/FORMA_Atlas_database_final_fig56.xlsx (final export when completed)
+
+Notes
+   - This repository does not include raw data or model weights.
+   - The script is resumable via the partial CSV in the output atlas folder.
+

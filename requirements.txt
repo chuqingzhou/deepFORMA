@@ -1,0 +1,18 @@
+# Note on PyTorch:
+# Install PyTorch separately according to your platform (CPU-only or CUDA),
+# then install the remaining dependencies below.
+#
+# Example (CPU-only, Linux):
+#   pip install --index-url https://download.pytorch.org/whl/cpu torch
+#
+# Example (CUDA 12.1):
+#   pip install --index-url https://download.pytorch.org/whl/cu121 torch
+
+numpy==1.26.*
+pandas==2.2.*
+h5py==3.10.*
+pynrrd==1.0.*
+scipy==1.11.*
+scikit-image==0.22.*
+openpyxl==3.1.*
+tqdm==4.66.*
