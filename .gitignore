@@ -23,3 +23,10 @@ demo_output2/
 dist/
 build/
 
+# Raw data and weights (prevent accidental commit)
+*.nrrd
+*.nii
+*.nii.gz
+*.pt
+*.pth
+

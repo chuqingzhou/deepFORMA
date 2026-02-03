@@ -67,10 +67,9 @@ CV = \sigma / (\mu + \epsilon)
 
 9) `radial_intensity_slope`
 
-- A compact proxy of center-to-edge intensity trend:
-\[
-slope \approx \frac{outer\_20\_mean - inner\_20\_mean}{0.8}
-\]
+- Linear regression slope of intensity vs normalized radial distance (0=edge, 1=center).
+- The organoid is divided into N shells (default 20) by normalized distance from surface; mean intensity per shell is computed.
+- **RIS**: slope from `scipy.stats.linregress(x, y)` where x = shell center positions (normalized distance), y = shell mean intensities.
 
 ## Notes
 

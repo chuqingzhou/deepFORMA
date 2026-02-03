@@ -1,0 +1,13 @@
+# Training-only dependencies (includes PyTorch).
+# Install PyTorch first according to your platform, then:
+#   pip install -r requirements.txt
+#   pip install -r requirements-train.txt
+#
+# Or for training from scratch:
+#   pip install -r requirements.txt
+#   pip install --index-url https://download.pytorch.org/whl/cpu torch   # or cu121 for CUDA
+#   pip install -r requirements-train.txt
+#
+# Note: requirements-train.txt extends requirements.txt.
+# The train script (train_transformer_kfold.py) requires PyTorch.
+# No additional packages beyond base + torch are needed for training.

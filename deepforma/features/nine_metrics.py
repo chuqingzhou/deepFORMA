@@ -1,11 +1,14 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Dict, Tuple
+from typing import Dict, Optional, Tuple
 
 import numpy as np
 from scipy.ndimage import distance_transform_edt
+from scipy.stats import linregress
 from skimage import measure
+
+N_SHELLS = 20
 
 
 NINE_METRICS = [
@@ -102,6 +105,64 @@ def _inner_outer_20_means(
     return outer_mean, inner_mean, ratio
 
 
+def _compute_radial_profile(
+    img: np.ndarray,
+    mask: np.ndarray,
+    spacing: Tuple[float, float, float],
+    n_shells: int = N_SHELLS,
+) -> Optional[Tuple[np.ndarray, np.ndarray]]:
+    """Compute radial intensity profile: (normalized_distance, shell_means)."""
+    if mask.sum() < 10:
+        return None
+    dist_map = distance_transform_edt(mask.astype(bool), sampling=spacing)
+    idx = np.where(mask)
+    dist = dist_map[idx]
+    inten = img[idx]
+    if dist.size == 0:
+        return None
+    max_dist = dist.max()
+    if max_dist < 1e-8:
+        return None
+    norm_dist = dist / max_dist
+    shell_edges = np.linspace(0, 1, n_shells + 1)
+    shell_means = []
+    shell_centers = []
+    for i in range(n_shells):
+        lo, hi = shell_edges[i], shell_edges[i + 1]
+        mask_shell = (norm_dist >= lo) & (norm_dist < hi)
+        if i == n_shells - 1:
+            mask_shell = (norm_dist >= lo) & (norm_dist <= hi)
+        if np.any(mask_shell):
+            shell_means.append(float(np.mean(inten[mask_shell])))
+            shell_centers.append((lo + hi) / 2)
+        else:
+            shell_means.append(np.nan)
+            shell_centers.append((lo + hi) / 2)
+    x = np.array(shell_centers)
+    y = np.array(shell_means)
+    valid = ~np.isnan(y)
+    if valid.sum() < 2:
+        return None
+    return x[valid], y[valid]
+
+
+def _compute_ris_linregress(
+    img: np.ndarray,
+    mask: np.ndarray,
+    spacing: Tuple[float, float, float],
+    n_shells: int = N_SHELLS,
+) -> float:
+    """RIS = linear regression slope (intensity vs normalized radial distance)."""
+    result = _compute_radial_profile(img, mask, spacing, n_shells)
+    if result is None:
+        return float("nan")
+    x, y = result
+    if len(x) < 2:
+        return float("nan")
+    slope, *_ = linregress(x, y)
+    return float(slope)
+
+
 def compute_nine_metrics(
     img: np.ndarray,
     mask: np.ndarray,
@@ -143,13 +204,9 @@ def compute_nine_metrics(
         img, mask, cfg.spacing, cfg.eps
     )
 
-    # Same approximation used in the paper plotting code:
-    # slope from center (inner) to edge (outer), with normalized radius 0.8 between P80 and P20.
-    radial_intensity_slope = (
-        float((outer_20_mean - inner_20_mean) / 0.8)
-        if np.isfinite(outer_20_mean) and np.isfinite(inner_20_mean)
-        else float("nan")
-    )
+    # RIS = linear regression slope on all shells (intensity vs normalized radial distance).
+    # x: normalized distance (0=edge, 1=center), y: mean intensity per shell.
+    radial_intensity_slope = _compute_ris_linregress(img, mask, cfg.spacing)
 
     return {
         "volume": float(volume),
