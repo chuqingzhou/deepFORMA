@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Build the final FORMA database artifacts (Figure 5/6 definition).
+Build the FORMA atlas database from raw MRI NRRD volumes.
 
 This script performs:
 - NRRD loading (raw MRI volume)
@@ -35,7 +35,7 @@ from deepforma.io.array_utils import min_max_norm, pad_to_multiple_reflect
 from deepforma.io.nrrd_io import read_nrrd_with_spacing
 
 
-LOG = logging.getLogger("deepforma.build_database_final_fig56")
+LOG = logging.getLogger("deepforma.build_database")
 
 
 def _setup_logging(verbose: bool) -> None:
@@ -183,11 +183,17 @@ def append_rows_csv(path: Path, rows: List[Dict]) -> None:
     df.to_csv(path, mode="a", header=write_header, index=False)
 
 
+def _atlas_xlsx_name(tag: str | None) -> str:
+    """Project-level output filename: DeepFORMA_atlas_database.xlsx or DeepFORMA_atlas_database_{tag}.xlsx"""
+    base = "DeepFORMA_atlas_database"
+    return f"{base}_{tag}.xlsx" if tag else f"{base}.xlsx"
+
+
 def parse_args() -> argparse.Namespace:
     here = Path(__file__).resolve()
     repo_root = here.parents[2]
 
-    p = argparse.ArgumentParser(description="Build FORMA database (Figure 5/6 definition).")
+    p = argparse.ArgumentParser(description="Build FORMA atlas database from raw MRI NRRD volumes.")
     p.add_argument("--root", type=Path, default=repo_root, help="Repository root (default: inferred from script path).")
     p.add_argument(
         "--raw-dir",
@@ -209,6 +215,7 @@ def parse_args() -> argparse.Namespace:
         help="Output root directory. Required unless --demo.",
     )
     p.add_argument("--demo", action="store_true", help="Run a minimal demo without real data or model weights.")
+    p.add_argument("--tag", type=str, default=None, help="Optional tag for output filename (e.g. paper2026) to distinguish versions.")
 
     p.add_argument("--spacing", nargs=3, type=float, default=[0.16, 0.16, 0.3], help="Voxel spacing (dz dy dx) in mm.")
     p.add_argument("--min-size", type=int, default=10, help="Minimum component size (voxels).")
@@ -237,6 +244,7 @@ def main() -> None:
     out_atlas_dir = out_root / "atlas"
     out_connected_dir = out_root / "predictions_connected"
     out_wells_dir = out_root / "wells_h5"
+    atlas_xlsx_name = _atlas_xlsx_name(args.tag)
 
     out_atlas_dir.mkdir(parents=True, exist_ok=True)
     out_connected_dir.mkdir(parents=True, exist_ok=True)
@@ -338,7 +346,7 @@ def main() -> None:
 
         partial_csv = args.resume_csv if args.resume_csv is not None else (out_atlas_dir / "_atlas_rows_partial.csv")
         pd.DataFrame(rows).to_csv(partial_csv, index=False)
-        out_xlsx = out_atlas_dir / "FORMA_Atlas_database_final_fig56.xlsx"
+        out_xlsx = out_atlas_dir / atlas_xlsx_name
         pd.DataFrame(rows).to_excel(out_xlsx, index=False)
         LOG.info("Demo completed. Outputs root: %s", out_root)
         return
@@ -527,7 +535,7 @@ def main() -> None:
         df = pd.read_csv(partial_csv)
         if df.empty:
             raise RuntimeError("Partial CSV is empty; cannot export the final atlas.")
-        out_xlsx = out_atlas_dir / "FORMA_Atlas_database_final_fig56.xlsx"
+        out_xlsx = out_atlas_dir / atlas_xlsx_name
         df.to_excel(out_xlsx, index=False)
         LOG.info("Saved atlas: %s (rows=%d, cols=%d)", out_xlsx, len(df), len(df.columns))
 
@@ -537,4 +545,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

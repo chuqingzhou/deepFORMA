@@ -4,7 +4,7 @@ Code-only release for reproducible organoid MRI segmentation and FORMA database 
 
 This repository provides:
 - A CNN-Transformer hybrid segmentation model (`deepforma.model.TransUNet3D`)
-- A database builder for the Figure 5/6 definition (`scripts/build_database_final_fig56.py`)
+- A database builder for organoid atlas construction (`scripts/build_database.py`)
 - Extraction of nine quantitative organoid metrics (morphology, intensity, spatial distribution)
 
 ## Installation
@@ -36,7 +36,7 @@ python -c "import deepforma; print(deepforma.__version__)"
 ### Smoke test 2: script CLI
 
 ```bash
-python scripts/build_database_final_fig56.py --help
+python scripts/build_database.py --help
 python scripts/train_transformer_kfold.py --help
 python scripts/convert_nrrd_to_h5.py --help
 ```
@@ -44,10 +44,10 @@ python scripts/convert_nrrd_to_h5.py --help
 ### Smoke test 3: demo (no data/weights required)
 
 ```bash
-python scripts/build_database_final_fig56.py --demo --out-root demo_output
+python scripts/build_database.py --demo --out-root demo_output
 ```
 
-## Build the database (Figure 5/6 definition)
+## Build the database
 
 You need:
 - Raw MRI NRRD volumes: `<RAW_DIR>/<Raw_Data_ID>.nrrd`
@@ -57,22 +57,34 @@ You need:
 Example:
 
 ```bash
-python scripts/build_database_final_fig56.py \
+python scripts/build_database.py \
   --model-path /ABS/PATH/TO/best_transformer.pt \
   --raw-dir /ABS/PATH/TO/RAW_NRRD_DIR \
   --atlas-existing /ABS/PATH/TO/FORMA_Atlas_data0124_connect_id.xlsx \
   --out-root /ABS/PATH/TO/OUTPUT_DIR
 ```
 
+Use `--tag <name>` to add a suffix to the output filename (e.g. `--tag paper2026` produces `DeepFORMA_atlas_database_paper2026.xlsx`).
+
 Outputs:
 - `<out-root>/predictions_connected/<sample>_connected.h5`
 - `<out-root>/wells_h5/<sample>-C<id>.h5`
 - `<out-root>/atlas/_atlas_rows_partial.csv` (resumable)
-- `<out-root>/atlas/FORMA_Atlas_database_final_fig56.xlsx` (final export when completed)
+- `<out-root>/atlas/DeepFORMA_atlas_database.xlsx` (final export when completed; suffix added if `--tag` is used)
 
 ## Nine metrics definition
 
 See `docs/metrics.md`.
+
+## Training (optional)
+
+The training script uses PyTorch and is optional. Install PyTorch first, then:
+
+```bash
+pip install -r requirements-train.txt
+```
+
+See `scripts/train_transformer_kfold.py --help` for usage.
 
 ## Data and model weights
 
@@ -87,4 +99,3 @@ If the dataset/model weights are distributed via a repository (e.g., Zenodo/OSF)
 - Download link / DOI
 - Checksum (e.g., SHA256)
 - Access request instructions (if applicable)
-
