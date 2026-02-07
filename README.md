@@ -4,8 +4,8 @@ Code-only release for reproducible organoid MRI segmentation and FORMA database 
 
 This repository provides:
 - A CNN-Transformer hybrid segmentation model (`deepforma.model.TransUNet3D`)
-- A database builder for organoid atlas construction (`scripts/build_database.py`)
-- Extraction of nine quantitative organoid metrics (morphology, intensity, spatial distribution)
+- A canonical atlas builder (v1.0) for organoid atlas construction (`scripts/build_database.py`)
+- Extraction of nine quantitative organoid metrics (morphology, intensity, spatial distribution) used by the atlas export
 
 ## Installation
 
@@ -39,38 +39,47 @@ python -c "import deepforma; print(deepforma.__version__)"
 python scripts/build_database.py --help
 python scripts/train_transformer_kfold.py --help
 python scripts/convert_nrrd_to_h5.py --help
-```
-
-### Smoke test 3: demo (no data/weights required)
-
-```bash
-python scripts/build_database.py --demo --out-root demo_output
+python scripts/convert_nrrd_to_h5_raw.py --help
 ```
 
 ## Build the database
 
 You need:
-- Raw MRI NRRD volumes: `<RAW_DIR>/<Raw_Data_ID>.nrrd`
+- Raw MRI H5 volumes: `<H5_RAW_DIR>/<Raw_Data_ID>.h5` with dataset `raw` (float32, min-max normalized to [0,1])
 - An existing atlas Excel with a `Raw_Data_ID` column (used to define the sample list and carry metadata columns)
 - A trained model checkpoint `.pt`
+
+If you only have raw NRRD volumes (no labels), convert them to H5 raw first:
+
+```bash
+python scripts/convert_nrrd_to_h5_raw.py \
+  --raw-dir /ABS/PATH/TO/RAW_NRRD_DIR \
+  --output-dir /ABS/PATH/TO/H5_RAW_DIR
+```
 
 Example:
 
 ```bash
 python scripts/build_database.py \
   --model-path /ABS/PATH/TO/best_transformer.pt \
-  --raw-dir /ABS/PATH/TO/RAW_NRRD_DIR \
+  --h5-raw-dir /ABS/PATH/TO/H5_RAW_DIR \
   --atlas-existing /ABS/PATH/TO/FORMA_Atlas_data0124_connect_id.xlsx \
-  --out-root /ABS/PATH/TO/OUTPUT_DIR
+  --out-root /ABS/PATH/TO/OUTPUT_DIR \
+  --tag canonical_h5_minv100 \
+  --out-atlas-name FORMA_Atlas_v1.0.xlsx
 ```
 
-Use `--tag <name>` to add a suffix to the output filename (e.g. `--tag paper2026` produces `DeepFORMA_atlas_database_paper2026.xlsx`).
+Canonical defaults (v1.0):
+- constant pad + z-score for model input
+- connectivity=1 (6-neighborhood)
+- min_volume=100
+- bg_clip=1 99
 
 Outputs:
-- `<out-root>/predictions_connected/<sample>_connected.h5`
-- `<out-root>/wells_h5/<sample>-C<id>.h5`
-- `<out-root>/atlas/_atlas_rows_partial.csv` (resumable)
-- `<out-root>/atlas/DeepFORMA_atlas_database.xlsx` (final export when completed; suffix added if `--tag` is used)
+- `<out-root>/predictions_connected_<tag>/<sample>_connected.h5`
+- `<out-root>/wells_h5_<tag>/<sample>-C<id>.h5`
+- `<out-root>/atlas/_atlas_rows_partial_<tag>.csv` (resumable)
+- `<out-root>/atlas/FORMA_Atlas_v1.0.xlsx` (final export; name configurable via `--out-atlas-name`)
 
 ## Nine metrics definition
 

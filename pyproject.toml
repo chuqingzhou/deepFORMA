@@ -21,5 +21,5 @@ dependencies = [
 ]
 
 [tool.setuptools]
-packages = ["deepforma", "deepforma.features", "deepforma.io", "deepforma.model"]
+packages = ["deepforma", "deepforma.features", "deepforma.io", "deepforma.model", "deepforma.segmentation"]
 
