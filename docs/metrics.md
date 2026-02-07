@@ -13,7 +13,7 @@ This document specifies the nine quantitative metrics implemented in `deepforma/
 
 ## Connectivity
 
-- Connected component labeling uses **26-neighborhood connectivity** (SciPy `generate_binary_structure(3, 3)`).
+- Connected component labeling uses **6-neighborhood connectivity by default** (SciPy `generate_binary_structure(3, 1)`; set connectivity=2/3 for 18/26-neighborhood).
 - Feature extraction is computed **per connected component** mask and does not depend on an additional connectivity definition.
 
 ## Metric list
