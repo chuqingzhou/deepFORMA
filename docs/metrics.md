@@ -1,78 +1,114 @@
 # Nine quantitative organoid metrics
 
-This document specifies the nine quantitative metrics implemented in `deepforma/features/nine_metrics.py`.
+This document defines the nine quantitative MRI-derived organoid metrics implemented in `deepforma/features/nine_metrics.py`. Metrics are computed per segmented organoid instance (one connected component) and are exported for both min–max–normalized intensities (`raw_norm`) and background z-scored intensities (`bgz`) using identical definitions.
 
 ## Inputs
 
-- **Image** (`img`): 3D volume, shape (D, H, W)
-  - `raw_norm`: min-max normalized intensity in \([0, 1]\)
-  - `bgz`: background z-scored intensity \((raw_norm - \mu_{bg}) / \sigma_{bg}\)
-- **Mask** (`mask`): 3D binary mask for a single connected component (one organoid), same shape as `img`
-- **Spacing** (`spacing`): voxel spacing \((dz, dy, dx)\) in mm
-  - Used for distance transform and surface/volume-related metrics
+- **Image** (`img`): 3D volume with shape (D, H, W)
+  - **`raw_norm`**: per-volume min–max normalized intensity, scaled to \([0, 1]\)
+  - **`bgz`**: background z-scored intensity computed from `raw_norm` as \((raw\_norm - \mu_{\mathrm{bg}}) / (\sigma_{\mathrm{bg}} + \varepsilon)\)
+- **Mask** (`mask`): 3D binary mask for a single organoid instance (one connected component), same shape as `img`
+- **Spacing** (`spacing`): voxel spacing \((dz, dy, dx)\) in mm  
+  Used for physical unit conversion (volume), distance transform, and surface/volume-derived metrics.
 
-## Connectivity
+## Instance definition (connectivity)
 
-- Connected component labeling uses **6-neighborhood connectivity by default** (SciPy `generate_binary_structure(3, 1)`; set connectivity=2/3 for 18/26-neighborhood).
-- Feature extraction is computed **per connected component** mask and does not depend on an additional connectivity definition.
+- Organoid instances are defined by 3D connected-component labeling of the binary segmentation mask.
+- By default, connected components use **6-neighborhood connectivity** (SciPy `generate_binary_structure(3, 1)`), corresponding to connectivity = 1 (options: 2/3 for 18/26-neighborhood).
+- Feature extraction is computed **per connected component** mask. Metrics that rely on distance-to-surface (e.g., `outer_20_mean`, `inner_20_mean`, `radial_intensity_slope`) use an Euclidean distance transform computed **within each component mask** with physical spacing.
 
 ## Metric list
 
-All metrics are computed per connected component.
+All metrics are computed per connected component (one organoid instance).
 
-1) `volume`
+### 1) `volume`
 
-- Voxel volume: \(V_{voxel} = dz \cdot dy \cdot dx\)
+- Voxel volume:  
+  \[
+  V_{\mathrm{voxel}} = dz \cdot dy \cdot dx
+  \]
 - Component voxel count: \(N\)
-- **Volume**: \(V = N \cdot V_{voxel}\)
+- Volume (physical units):  
+  \[
+  V = N \cdot V_{\mathrm{voxel}}
+  \]
 
-2) `sav_ratio`
+### 2) `sav_ratio`
 
-- Surface area \(A\) is estimated via marching cubes on the component mask (with a small bbox padding to reduce truncation).
-- **SA/V ratio**: \(SA/V = A / V\)
+- Surface area \(A\) is estimated from a triangular surface mesh reconstructed from the binary component mask using marching cubes (with a small bounding-box padding to reduce truncation artifacts).
+- Surface area-to-volume ratio:  
+  \[
+  SA/V = \frac{A}{V}
+  \]
 
-3) `sphericity`
+### 3) `sphericity`
 
-- **Sphericity**:
-\[
-\phi = \frac{\pi^{1/3}(6V)^{2/3}}{A}
-\]
+- Sphericity (voxel-based compactness) is defined as:  
+  \[
+  \phi = \frac{\pi^{1/3}(6V)^{2/3}}{A}
+  \]
+- For continuous, smooth solids, \(\phi \le 1\) with equality for a perfect sphere. In this pipeline, \(V\) is computed from voxel counts and voxel spacing, whereas \(A\) is estimated from a mesh reconstructed from the discretized binary mask (marching cubes). Due to discretization and mesh approximation—particularly under anisotropic sampling—\(A\) can be slightly underestimated, which can yield \(\phi > 1\) as a numerical artifact rather than a geometric violation. We therefore interpret \(\phi\) as a voxel-based compactness metric.
+  - *(Optional; include only if this is what you actually do in figures/tables)* For visualization, values above 1 may be capped at 1.
 
-4) `intensity_mean`
+### 4) `intensity_mean`
 
-- Mean of voxel intensities within the component mask.
+- Mean voxel intensity within the component mask:  
+  \[
+  \mu = \mathrm{mean}\{\,I(\mathbf{r}) \;|\; \mathbf{r} \in \text{mask}\,\}
+  \]
 
-5) `intensity_cv`
+### 5) `intensity_cv`
 
-- Coefficient of variation:
-\[
-CV = \sigma / (\mu + \epsilon)
-\]
+- Coefficient of variation (CV) of voxel intensities within the component mask:  
+  \[
+  CV = \frac{\sigma}{\mu + \epsilon}
+  \]
+  where \(\mu\) and \(\sigma\) are the mean and standard deviation of in-mask intensities, and \(\epsilon\) is a small constant to avoid division by zero.
 
-6) `outer_20_mean`
+### 6) `outer_20_mean`
 
-- Compute distance transform inside the component mask (with physical spacing).
-- Let \(d\) be distances of all voxels inside the mask.
-- Define threshold \(t_{out} = P_{20}(d)\).
-- **Outer 20% mean**: mean intensity of voxels with \(d \le t_{out}\).
+- Compute the Euclidean distance transform (EDT) **inside** the component mask using physical spacing. Let \(d(\mathbf{r})\) denote the distance-to-surface for voxel \(\mathbf{r}\) within the mask.
+- Define the outer compartment threshold as the 20th percentile of EDT values over all in-mask voxels:  
+  \[
+  t_{\mathrm{out}} = P_{20}\left(\{\,d(\mathbf{r}) \;|\; \mathbf{r} \in \text{mask}\,\}\right)
+  \]
+- Outer 20% mean intensity is the mean intensity of voxels satisfying \(d(\mathbf{r}) \le t_{\mathrm{out}}\):  
+  \[
+  \mathrm{outer\_20\_mean} = \mathrm{mean}\{\,I(\mathbf{r}) \;|\; \mathbf{r}\in\text{mask},\ d(\mathbf{r}) \le t_{\mathrm{out}}\,\}
+  \]
 
-7) `inner_20_mean`
+### 7) `inner_20_mean`
 
-- Define threshold \(t_{in} = P_{80}(d)\).
-- **Inner 20% mean**: mean intensity of voxels with \(d \ge t_{in}\).
+- Define the inner compartment threshold as the 80th percentile of EDT values over all in-mask voxels:  
+  \[
+  t_{\mathrm{in}} = P_{80}\left(\{\,d(\mathbf{r}) \;|\; \mathbf{r} \in \text{mask}\,\}\right)
+  \]
+- Inner 20% mean intensity is the mean intensity of voxels satisfying \(d(\mathbf{r}) \ge t_{\mathrm{in}}\):  
+  \[
+  \mathrm{inner\_20\_mean} = \mathrm{mean}\{\,I(\mathbf{r}) \;|\; \mathbf{r}\in\text{mask},\ d(\mathbf{r}) \ge t_{\mathrm{in}}\,\}
+  \]
 
-8) `inner_outer_20_ratio`
+### 8) `inner_outer_20_ratio`
 
-- **Ratio**: \(inner\_20\_mean / (outer\_20\_mean + \epsilon)\)
+- Ratio of inner to outer mean intensity:  
+  \[
+  \mathrm{inner\_outer\_20\_ratio} = \frac{\mathrm{inner\_20\_mean}}{\mathrm{outer\_20\_mean} + \epsilon}
+  \]
 
-9) `radial_intensity_slope`
+### 9) `radial_intensity_slope`
 
-- Linear regression slope of intensity vs normalized radial distance (0=edge, 1=center).
-- The organoid is divided into N shells (default 20) by normalized distance from surface; mean intensity per shell is computed.
-- **RIS**: slope from `scipy.stats.linregress(x, y)` where x = shell center positions (normalized distance), y = shell mean intensities.
+- Using the EDT values \(d(\mathbf{r})\) computed inside the mask, define a normalized radial coordinate:  
+  \[
+  \tilde{d}(\mathbf{r}) = \frac{d(\mathbf{r})}{\max_{\mathbf{r}\in\text{mask}} d(\mathbf{r})}
+  \]
+  so that \(\tilde{d}=0\) is near the surface and \(\tilde{d}=1\) is near the center.
+- Partition \(\tilde{d}\) into \(K\) shells (default \(K=20\)) and compute the mean intensity per shell. Empty shells are recorded as `NaN`.
+- The radial intensity slope (RIS) is the slope from a linear regression of shell-wise mean intensity \(y\) against shell-center positions \(x\) in normalized depth:  
+  \[
+  \mathrm{RIS} = \mathrm{slope}\left(\mathrm{linregress}(x, y)\right)
+  \]
 
 ## Notes
 
-- The same metric definitions are applied to both `raw_norm` and `bgz`.
-- The implementation returns `NaN` for metrics when the component is smaller than `min_size_voxels`.
-
+- The same definitions are applied to both `raw_norm` and `bgz`.
+- Metrics are returned as `NaN` when the component is smaller than `min_size_voxels` (implementation safeguard against unstable estimates in very small instances).
