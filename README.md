@@ -134,7 +134,7 @@ This code release does not include unrestricted raw MRI data or trained model we
 
 - Raw MRI subset, segmentation annotations, and scan-level metadata supporting DeepFORMA: https://doi.org/10.5281/zenodo.19406546
 
-The Zenodo record is restricted-access. Access will be granted for peer review, editorial assessment, and non-commercial academic research, subject to the terms listed on the record. If trained model weights are distributed through the same record or a separate archive, use the released checkpoint path with `--model-path`.
+The Zenodo record is restricted-access. Access will be granted for peer review, editorial assessment, and non-commercial academic research, subject to the terms listed on the record. The trained segmentation checkpoint is provided in this record as `best_transformer.pt`, and the accompanying scan-level metadata file is `metadata_0425.xlsx`. After obtaining access, pass the local path to `best_transformer.pt` with `--model-path`.
 
 For reproducible use, record the following for any downloaded artifacts:
 - DOI or access URL
