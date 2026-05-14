@@ -114,7 +114,7 @@ Outputs:
 - `<out-root>/atlas/_atlas_rows_partial_<tag>.csv` (resumable)
 - `<out-root>/atlas/FORMA_Atlas_v1.0.xlsx` (final export; name configurable via `--out-atlas-name`)
 
-## Nine metrics definition
+## Feature definitions (nine primary classes)
 
 See `docs/metrics.md`.
 
@@ -156,7 +156,7 @@ If you use this software, please cite the accompanying DeepFORMA manuscript and 
 
 ```text
 Zhou, C., Ren, X., Gao, S., Jiang, Y., Tian, X., Zhao, J., Fu, M.,
-Wang, Q., Zhao, L., Wang, Q., Guo, W., Ni, P., and Li, T.
+Wang, Q., Zhao, L., Wang, Q., Guo, W., Ni, P., & Li, T.
 DeepFORMA: a multidimensional MRI platform for longitudinal phenotyping
 and trajectory analysis of human brain organoids.
 ```
