@@ -32,7 +32,7 @@ authors:
 repository-code: "https://github.com/chuqingzhou/deepFORMA"
 url: "https://github.com/chuqingzhou/deepFORMA"
 license: MIT
-version: 0.1.0
+version: 1.0.0
 date-released: "2026-05-13"
 abstract: "Core software release for DeepFORMA MRI-based brain organoid segmentation, demultiplexing, atlas construction, and feature extraction."
 keywords:
