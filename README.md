@@ -5,7 +5,7 @@ Code-only release for reproducible organoid MRI segmentation and FORMA database 
 This repository provides:
 - A CNN-Transformer hybrid segmentation model (`deepforma.model.TransUNet3D`)
 - A canonical atlas builder (v1.0) for organoid atlas construction (`scripts/build_database.py`)
-- Extraction of nine quantitative organoid metrics (morphology, intensity, spatial distribution) used by the atlas export
+- Nine primary MRI-derived feature classes used in the manuscript, together with auxiliary per-component statistics exported in the atlas table for reproducibility
 
 ## Code availability scope
 
@@ -134,7 +134,7 @@ This code release does not include unrestricted raw MRI data or trained model we
 
 - Raw MRI subset, segmentation annotations, and scan-level metadata supporting DeepFORMA: https://doi.org/10.5281/zenodo.19406546
 
-The Zenodo record is restricted-access. Access will be granted for peer review, editorial assessment, and non-commercial academic research, subject to the terms listed on the record. The trained segmentation checkpoint is provided in this record as `best_transformer.pt`, and the accompanying scan-level metadata file is `metadata_0425.xlsx`. After obtaining access, pass the local path to `best_transformer.pt` with `--model-path`.
+The Zenodo record is restricted-access. Access will be granted for peer review, editorial assessment, and non-commercial academic research, subject to the terms listed on the record. The trained segmentation checkpoint is provided in this record as `best_transformer.pt`, and the accompanying scan-level metadata file is `metadata_0425.xlsx`. After access is granted, use `best_transformer.pt` as `--model-path` and `metadata_0425.xlsx`, or the released metadata spreadsheet with a `Raw_Data_ID` column, as `--atlas-existing`.
 
 For reproducible use, record the following for any downloaded artifacts:
 - DOI or access URL
@@ -145,8 +145,10 @@ For reproducible use, record the following for any downloaded artifacts:
 
 The code has been tested with:
 - Python >= 3.9
-- NumPy 1.26.*, SciPy 1.11.*, scikit-image 0.22.*
-- PyTorch 2.2.* (install separately for your platform; CPU-only or CUDA)
+- `numpy==1.26.*`
+- `scipy==1.11.*`
+- `scikit-image==0.22.*`
+- `torch==2.2.*` installed separately for the user's CPU/CUDA platform
 
 ## Citation
 
@@ -154,7 +156,7 @@ If you use this software, please cite the accompanying DeepFORMA manuscript and 
 
 ```text
 Zhou, C., Ren, X., Gao, S., Jiang, Y., Tian, X., Zhao, J., Fu, M.,
-Wang, Q., Zhao, L., Wang, Q., Guo, W., Li, T., and Ni, P.
+Wang, Q., Zhao, L., Wang, Q., Guo, W., Ni, P., and Li, T.
 DeepFORMA: a multidimensional MRI platform for longitudinal phenotyping
 and trajectory analysis of human brain organoids.
 ```
@@ -167,5 +169,3 @@ Wang, Q., Zhao, L., Wang, Q., Guo, W., Ni, P., & Li, T. (2026).
 Raw MRI subset, segmentation annotations, and scan-level metadata supporting
 DeepFORMA (v1.0) [Data set]. Zenodo. https://doi.org/10.5281/zenodo.19406546
 ```
-
-A versioned software DOI should be added here after creating the GitHub release and archiving it with Zenodo.

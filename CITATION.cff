@@ -25,10 +25,10 @@ authors:
     given-names: Qiang
   - family-names: Guo
     given-names: Wanjun
-  - family-names: Li
-    given-names: Tao
   - family-names: Ni
     given-names: Peiyan
+  - family-names: Li
+    given-names: Tao
 repository-code: "https://github.com/chuqingzhou/deepFORMA"
 url: "https://github.com/chuqingzhou/deepFORMA"
 license: MIT

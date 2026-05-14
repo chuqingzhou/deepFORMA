@@ -21,8 +21,8 @@ authors = [
   {name = "Liansheng Zhao"},
   {name = "Qiang Wang"},
   {name = "Wanjun Guo"},
-  {name = "Tao Li"},
   {name = "Peiyan Ni"},
+  {name = "Tao Li"},
 ]
 keywords = [
   "brain organoid",
