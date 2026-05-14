@@ -42,7 +42,7 @@ keywords:
   - atlas
   - phenotyping
 references:
-  - type: dataset
+  - type: data
     title: "Raw MRI subset, segmentation annotations, and scan-level metadata supporting DeepFORMA"
     authors:
       - family-names: Zhou
