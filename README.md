@@ -9,7 +9,7 @@ This repository provides:
 
 ## Code availability scope
 
-This repository is the core DeepFORMA software release. It includes model training, inference, connected-component demultiplexing, atlas construction, and feature extraction code. Source data and figure-generation scripts used to reproduce manuscript figures are provided separately with the manuscript/source-data package.
+This repository is the core DeepFORMA software release. It includes model training, inference, connected-component demultiplexing, atlas construction, and feature extraction code.
 
 ## Installation
 
@@ -150,7 +150,16 @@ The code has been tested with:
 
 ## Citation
 
-If you use this software, please cite the accompanying DeepFORMA manuscript and this software release. The supporting restricted data record is:
+If you use this software, please cite the accompanying DeepFORMA manuscript and this software release.
+
+```text
+Zhou, C., Ren, X., Gao, S., Jiang, Y., Tian, X., Zhao, J., Fu, M.,
+Wang, Q., Zhao, L., Wang, Q., Guo, W., Li, T., and Ni, P.
+DeepFORMA: a multidimensional MRI platform for longitudinal phenotyping
+and trajectory analysis of human brain organoids.
+```
+
+The supporting restricted data record is:
 
 ```text
 Zhou, C., Ren, X., Ni, P., and Li, T. Raw MRI subset, segmentation annotations,

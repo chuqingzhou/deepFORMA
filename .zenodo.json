@@ -1,0 +1,47 @@
+{
+  "title": "DeepFORMA: a 4D MRI pipeline for longitudinal brain organoid segmentation and multidomain phenotyping",
+  "upload_type": "software",
+  "access_right": "open",
+  "license": "mit",
+  "version": "0.1.0",
+  "creators": [
+    {
+      "name": "Zhou, Chuqing",
+      "affiliation": "Zhejiang University School of Medicine"
+    },
+    {
+      "name": "Ren, Xinyi",
+      "affiliation": "Zhejiang University School of Medicine"
+    },
+    {
+      "name": "Ni, Peiyan",
+      "affiliation": "Zhejiang University School of Medicine"
+    },
+    {
+      "name": "Li, Tao",
+      "affiliation": "Zhejiang University School of Medicine"
+    }
+  ],
+  "description": "DeepFORMA is a high-throughput 4D MRI computational framework for automated segmentation, spatial demultiplexing, atlas construction and multidomain phenotyping of human brain organoids.",
+  "keywords": [
+    "brain organoids",
+    "MRI",
+    "segmentation",
+    "longitudinal phenotyping",
+    "DeepFORMA",
+    "4D imaging",
+    "computational pipeline"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/chuqingzhou/deepFORMA",
+      "relation": "isSupplementTo",
+      "resource_type": "software"
+    },
+    {
+      "identifier": "https://doi.org/10.5281/zenodo.19406546",
+      "relation": "isSupplementedBy",
+      "resource_type": "dataset"
+    }
+  ]
+}

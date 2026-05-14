@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-title: deepFORMA
+title: "DeepFORMA: a multidimensional MRI platform for longitudinal phenotyping and trajectory analysis of human brain organoids"
 message: "If you use this software, please cite the accompanying DeepFORMA manuscript and this software release."
 type: software
 authors:
@@ -19,8 +19,6 @@ authors:
     given-names: Mengshan
   - family-names: Wang
     given-names: Qingmei
-  - family-names: Xu
-    given-names: Naxin
   - family-names: Zhao
     given-names: Liansheng
   - family-names: Wang
