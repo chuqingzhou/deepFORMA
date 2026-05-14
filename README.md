@@ -162,9 +162,10 @@ and trajectory analysis of human brain organoids.
 The supporting restricted data record is:
 
 ```text
-Zhou, C., Ren, X., Ni, P., and Li, T. Raw MRI subset, segmentation annotations,
-and scan-level metadata supporting DeepFORMA. Zenodo.
-https://doi.org/10.5281/zenodo.19406546
+Zhou, C., Ren, X., Gao, S., Jiang, Y., Tian, X., Zhao, J., Fu, M.,
+Wang, Q., Zhao, L., Wang, Q., Guo, W., Ni, P., & Li, T. (2026).
+Raw MRI subset, segmentation annotations, and scan-level metadata supporting
+DeepFORMA (v1.0) [Data set]. Zenodo. https://doi.org/10.5281/zenodo.19406546
 ```
 
 A versioned software DOI should be added here after creating the GitHub release and archiving it with Zenodo.

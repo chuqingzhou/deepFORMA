@@ -44,11 +44,30 @@ keywords:
 references:
   - type: data
     title: "Raw MRI subset, segmentation annotations, and scan-level metadata supporting DeepFORMA"
+    version: "v1.0"
     authors:
       - family-names: Zhou
         given-names: Chuqing
       - family-names: Ren
         given-names: Xinyi
+      - family-names: Gao
+        given-names: Shiyingnan
+      - family-names: Jiang
+        given-names: Youhui
+      - family-names: Tian
+        given-names: Xiaoyi
+      - family-names: Zhao
+        given-names: Jun
+      - family-names: Fu
+        given-names: Mengshan
+      - family-names: Wang
+        given-names: Qingmei
+      - family-names: Zhao
+        given-names: Liansheng
+      - family-names: Wang
+        given-names: Qiang
+      - family-names: Guo
+        given-names: Wanjun
       - family-names: Ni
         given-names: Peiyan
       - family-names: Li
