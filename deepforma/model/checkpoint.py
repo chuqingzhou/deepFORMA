@@ -4,6 +4,19 @@ from pathlib import Path
 from typing import Any, Dict, Tuple
 
 import torch
+import torch.nn as nn
+
+
+class ZScorePassthroughSegmentationModel(nn.Module):
+    """Demo-only model that treats positive z-scored voxels as foreground logits."""
+
+    def __init__(self, *, scale: float = 1.0, bias: float = 0.0):
+        super().__init__()
+        self.scale = float(scale)
+        self.bias = float(bias)
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        return x * self.scale + self.bias
 
 
 def load_torch_checkpoint(path: Path, device: str) -> Dict[str, Any]:
@@ -39,8 +52,17 @@ def load_segmentation_model(model_path: Path, *, dropout: float = 0.3, prefer_cu
     from .transunet3d import build_model
 
     device = infer_device(prefer_cuda=prefer_cuda)
-    model = build_model(dropout=dropout).to(device)
     ckpt = load_torch_checkpoint(model_path, device=device)
+
+    if ckpt.get("model_type") == "demo_zscore_passthrough":
+        model = ZScorePassthroughSegmentationModel(
+            scale=float(ckpt.get("scale", 1.0)),
+            bias=float(ckpt.get("bias", 0.0)),
+        ).to(device)
+        model.eval()
+        return model, device
+
+    model = build_model(dropout=dropout).to(device)
     load_model_state_dict(model, ckpt)
     model.eval()
     return model, device

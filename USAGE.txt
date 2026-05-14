@@ -1,5 +1,12 @@
 deepFORMA (code-only release)
 
+Scope
+   This repository contains the core DeepFORMA software:
+   model training, inference, connected-component demultiplexing,
+   atlas construction, and feature extraction.
+   Manuscript figure source data and figure-generation scripts are provided
+   separately with the manuscript/source-data package.
+
 1) Install dependencies
    - Create an environment (recommended) and install:
      pip install -r requirements.txt
@@ -11,10 +18,25 @@ deepFORMA (code-only release)
      python -c "import deepforma; print(deepforma.__version__)"
    - Smoke test 2: script CLI
      python scripts/build_database.py --help
+     python scripts/create_demo_assets.py --help
      python scripts/convert_nrrd_to_h5.py --help
      python scripts/convert_nrrd_to_h5_raw.py --help
 
-3) Build the database
+3) Runnable demo
+   The demo creates a synthetic H5 volume, a minimal atlas metadata Excel file,
+   and a demo-only checkpoint, then runs the atlas builder end-to-end:
+
+     bash scripts/run_demo.sh
+
+   Expected outputs:
+     demo/output/predictions_connected_demo/DEMO001_connected.h5
+     demo/output/wells_h5_demo/DEMO001-C1.h5
+     demo/output/atlas/_atlas_rows_partial_demo.csv
+     demo/output/atlas/FORMA_Atlas_demo.xlsx
+
+   The demo checkpoint is synthetic and must not be used for scientific inference.
+
+4) Build the database
    - You need:
      - Raw MRI H5 volumes (one file per sample): <H5_RAW_DIR>/<Raw_Data_ID>.h5, with dataset 'raw' (float32, min-max normalized to [0,1])
      - An existing connected-id atlas Excel that contains 'Raw_Data_ID' column
@@ -41,12 +63,18 @@ deepFORMA (code-only release)
      - min_volume=100
      - bg_clip=1 99
 
-4) Outputs
+5) Outputs
    - <out-root>/predictions_connected_<tag>/<sample>_connected.h5
    - <out-root>/wells_h5_<tag>/<sample>-C<id>.h5
    - <out-root>/atlas/_atlas_rows_partial_<tag>.csv (resumable)
    - <out-root>/atlas/FORMA_Atlas_v1.0.xlsx (final export when completed; name configurable)
 
-Notes
-   - This repository does not include raw data or model weights.
+6) Data and model weights
+   - This repository does not include unrestricted raw data or trained model weights.
+   - Supporting restricted data are available at:
+     https://doi.org/10.5281/zenodo.19406546
+   - Record DOI/access URL, file version, SHA256 checksum, access date, and
+     usage restrictions for any downloaded artifacts.
+
+7) Notes
    - The script is resumable via the partial CSV in the output atlas folder.

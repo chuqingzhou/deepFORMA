@@ -7,6 +7,10 @@ This repository provides:
 - A canonical atlas builder (v1.0) for organoid atlas construction (`scripts/build_database.py`)
 - Extraction of nine quantitative organoid metrics (morphology, intensity, spatial distribution) used by the atlas export
 
+## Code availability scope
+
+This repository is the core DeepFORMA software release. It includes model training, inference, connected-component demultiplexing, atlas construction, and feature extraction code. Source data and figure-generation scripts used to reproduce manuscript figures are provided separately with the manuscript/source-data package.
+
 ## Installation
 
 Create a fresh environment and install dependencies.
@@ -37,9 +41,38 @@ python -c "import deepforma; print(deepforma.__version__)"
 
 ```bash
 python scripts/build_database.py --help
+python scripts/create_demo_assets.py --help
 python scripts/train_transformer_kfold.py --help
 python scripts/convert_nrrd_to_h5.py --help
 python scripts/convert_nrrd_to_h5_raw.py --help
+```
+
+## Runnable demo
+
+The demo creates a small synthetic H5 volume, a minimal atlas metadata Excel file, and a demo-only checkpoint. It then runs the same `scripts/build_database.py` entry point used for the atlas export:
+
+```bash
+bash scripts/run_demo.sh
+```
+
+Expected outputs:
+- `demo/output/predictions_connected_demo/DEMO001_connected.h5`
+- `demo/output/wells_h5_demo/DEMO001-C1.h5`
+- `demo/output/atlas/_atlas_rows_partial_demo.csv`
+- `demo/output/atlas/FORMA_Atlas_demo.xlsx`
+
+The demo checkpoint is intentionally synthetic and only verifies that the software pipeline runs end-to-end. It is not a trained segmentation model and must not be used for scientific inference.
+
+To run the same workflow with study data, replace the demo paths with the released model checkpoint, raw H5 directory, and atlas metadata file:
+
+```bash
+python scripts/build_database.py \
+  --model-path /ABS/PATH/TO/best_transformer.pt \
+  --h5-raw-dir /ABS/PATH/TO/H5_RAW_DIR \
+  --atlas-existing /ABS/PATH/TO/FORMA_Atlas_data0124_connect_id.xlsx \
+  --out-root /ABS/PATH/TO/OUTPUT_DIR \
+  --tag canonical_h5_minv100 \
+  --out-atlas-name FORMA_Atlas_v1.0.xlsx
 ```
 
 ## Build the database
@@ -97,14 +130,32 @@ See `scripts/train_transformer_kfold.py --help` for usage.
 
 ## Data and model weights
 
-This code release does not include raw data or model weights.
+This code release does not include unrestricted raw MRI data or trained model weights. Supporting data for peer review, editorial assessment, and non-commercial academic research are available through the restricted Zenodo record:
+
+- Raw MRI subset, segmentation annotations, and scan-level metadata supporting DeepFORMA: https://doi.org/10.5281/zenodo.19406546
+
+The Zenodo record is restricted-access. Access will be granted for peer review, editorial assessment, and non-commercial academic research, subject to the terms listed on the record. If trained model weights are distributed through the same record or a separate archive, use the released checkpoint path with `--model-path`.
+
+For reproducible use, record the following for any downloaded artifacts:
+- DOI or access URL
+- File name and version
+- SHA256 checksum
+- Access date
+- License or usage restrictions
 
 The code has been tested with:
 - Python >= 3.9
 - NumPy 1.26.*, SciPy 1.11.*, scikit-image 0.22.*
 - PyTorch 2.2.* (install separately for your platform; CPU-only or CUDA)
 
-If the dataset/model weights are distributed via a repository (e.g., Zenodo/OSF) or controlled access, provide:
-- Download link / DOI
-- Checksum (e.g., SHA256)
-- Access request instructions (if applicable)
+## Citation
+
+If you use this software, please cite the accompanying DeepFORMA manuscript and this software release. The supporting restricted data record is:
+
+```text
+Zhou, C., Ren, X., Ni, P., and Li, T. Raw MRI subset, segmentation annotations,
+and scan-level metadata supporting DeepFORMA. Zenodo.
+https://doi.org/10.5281/zenodo.19406546
+```
+
+A versioned software DOI should be added here after creating the GitHub release and archiving it with Zenodo.

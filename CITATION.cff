@@ -1,12 +1,59 @@
 cff-version: 1.2.0
 title: deepFORMA
-message: "If you use this software, please cite it."
+message: "If you use this software, please cite the accompanying DeepFORMA manuscript and this software release."
 type: software
 authors:
-  - family-names: Zhang
-    given-names: Jiachi
+  - family-names: Zhou
+    given-names: Chuqing
+  - family-names: Ren
+    given-names: Xinyi
+  - family-names: Gao
+    given-names: Shiyingnan
+  - family-names: Jiang
+    given-names: Youhui
+  - family-names: Tian
+    given-names: Xiaoyi
+  - family-names: Zhao
+    given-names: Jun
+  - family-names: Fu
+    given-names: Mengshan
+  - family-names: Wang
+    given-names: Qingmei
+  - family-names: Xu
+    given-names: Naxin
+  - family-names: Zhao
+    given-names: Liansheng
+  - family-names: Wang
+    given-names: Qiang
+  - family-names: Guo
+    given-names: Wanjun
+  - family-names: Li
+    given-names: Tao
+  - family-names: Ni
+    given-names: Peiyan
 repository-code: "https://github.com/chuqingzhou/deepFORMA"
 url: "https://github.com/chuqingzhou/deepFORMA"
 license: MIT
 version: 0.1.0
-date-released: "2026-01-29"
+date-released: "2026-05-13"
+abstract: "Core software release for DeepFORMA MRI-based brain organoid segmentation, demultiplexing, atlas construction, and feature extraction."
+keywords:
+  - brain organoid
+  - magnetic resonance imaging
+  - segmentation
+  - atlas
+  - phenotyping
+references:
+  - type: dataset
+    title: "Raw MRI subset, segmentation annotations, and scan-level metadata supporting DeepFORMA"
+    authors:
+      - family-names: Zhou
+        given-names: Chuqing
+      - family-names: Ren
+        given-names: Xinyi
+      - family-names: Ni
+        given-names: Peiyan
+      - family-names: Li
+        given-names: Tao
+    doi: "10.5281/zenodo.19406546"
+    url: "https://doi.org/10.5281/zenodo.19406546"
