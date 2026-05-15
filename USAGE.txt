@@ -4,8 +4,8 @@ Scope
    This repository contains the core DeepFORMA software:
    model training, inference, connected-component demultiplexing,
    atlas construction, and feature extraction.
-   Manuscript figure source data and figure-generation scripts are provided
-   separately with the manuscript/source-data package.
+   Figure-related source data and plotting scripts are maintained outside
+   this code repository (e.g., with the journal submission or supplement).
 
 1) Install dependencies
    - Create an environment (recommended) and install:

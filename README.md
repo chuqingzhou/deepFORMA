@@ -5,7 +5,7 @@ Code-only release for reproducible organoid MRI segmentation and FORMA database 
 This repository provides:
 - A CNN-Transformer hybrid segmentation model (`deepforma.model.TransUNet3D`)
 - A canonical atlas builder (v1.0) for organoid atlas construction (`scripts/build_database.py`)
-- Nine primary MRI-derived feature classes used in the manuscript, together with auxiliary per-component statistics exported in the atlas table for reproducibility
+- Nine primary MRI-derived feature classes defined in `docs/metrics.md`, together with auxiliary per-component statistics exported in the atlas table for reproducibility
 
 ## Code availability scope
 
@@ -153,23 +153,15 @@ The code has been tested with:
 
 ## Citation
 
-If you use this software, please cite the accompanying DeepFORMA manuscript, the Zenodo software archive, and the supporting data record where relevant.
-
-```text
-Zhou, C., Ren, X., Gao, S., Jiang, Y., Tian, X., Zhao, J., Fu, M.,
-Wang, Q., Zhao, L., Wang, Q., Guo, W., Ni, P., & Li, T.
-DeepFORMA: a multidimensional MRI platform for longitudinal phenotyping
-and trajectory analysis of human brain organoids.
-```
+If you use this software, please cite the **Zenodo software archive** and, when you use the restricted materials, the **supporting data record**. After a companion journal article is published, add that reference as the primary literature citation.
 
 Zenodo software archive (v1.0.0):
 
 ```text
 Zhou, C., Ren, X., Gao, S., Jiang, Y., Tian, X., Zhao, J., Fu, M.,
 Wang, Q., Zhao, L., Wang, Q., Guo, W., Ni, P., & Li, T. (2026).
-DeepFORMA: a multidimensional MRI platform for longitudinal phenotyping
-and trajectory analysis of human brain organoids (v1.0.0) [Computer software].
-Zenodo. https://doi.org/10.5281/zenodo.20184803
+deepFORMA v1.0.0: organoid MRI segmentation, demultiplexing, and FORMA atlas construction
+[Computer software]. Zenodo. https://doi.org/10.5281/zenodo.20184803
 ```
 
 The supporting restricted data record is:
