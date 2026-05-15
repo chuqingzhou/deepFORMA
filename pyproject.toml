@@ -62,3 +62,6 @@ Repository = "https://github.com/chuqingzhou/deepFORMA"
 [tool.setuptools]
 packages = ["deepforma", "deepforma.features", "deepforma.io", "deepforma.model", "deepforma.segmentation"]
 
+[tool.setuptools.package-data]
+deepforma.model = ["README.cn.md"]
+

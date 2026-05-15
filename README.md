@@ -11,6 +11,8 @@ This repository provides:
 
 This repository is the core DeepFORMA software release. It includes model training, inference, connected-component demultiplexing, atlas construction, and feature extraction code.
 
+Chinese notes for reviewers (model folder — training vs inference, architecture outline): `deepforma/model/README.cn.md`.
+
 ## Installation
 
 Create a fresh environment and install dependencies.
