@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 title: "deepFORMA v1.0.0: organoid MRI segmentation, demultiplexing, and FORMA atlas construction"
-message: "If you use this software, cite the Zenodo software record (10.5281/zenodo.20184803) and, when applicable, the supporting data record (10.5281/zenodo.19406546). Add the companion journal article once it is published."
+message: "If you use this software, cite the Zenodo software record (10.5281/zenodo.20184803) and, when applicable, the supporting data record (10.5281/zenodo.19406546)."
 type: software
 authors:
   - family-names: Zhou

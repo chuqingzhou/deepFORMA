@@ -153,7 +153,7 @@ The code has been tested with:
 
 ## Citation
 
-If you use this software, please cite the **Zenodo software archive** and, when you use the restricted materials, the **supporting data record**. After a companion journal article is published, add that reference as the primary literature citation.
+If you use this software, cite the **Zenodo software archive** (DOI below). When you use the restricted materials, cite the **supporting data record** as well.
 
 Zenodo software archive (v1.0.0):
 
