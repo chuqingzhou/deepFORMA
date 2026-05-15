@@ -138,13 +138,13 @@ See `scripts/train_transformer_kfold.py --help` for usage.
 
 This repository does not ship unrestricted raw MRI volumes or trained weights as part of the Git tree. Versioned downloads are archived on Zenodo:
 
-- **Software** (repository release **v1.0.1**; Zenodo concept / landing): https://doi.org/10.5281/zenodo.20184803  
-  For journal **Code availability**, cite the **Version DOI** displayed on Zenodo for the upload created from GitHub **release v1.0.1** once you archive that tag (Springer Nature guidance: a GitHub URL alone is not a sufficient permanent identifier). Update the software DOI in your bibliography if Zenodo mints a new version-specific DOI for that upload.
+- **Software** (repository release **v1.0.1**; Zenodo concept / landing): https://doi.org/10.5281/zenodo.20195208
+  
 - **Restricted supporting data** (raw MRI subset, segmentation annotations, scan-level metadata, and files such as `best_transformer.pt` / `metadata_0425.xlsx`; access per record terms): https://doi.org/10.5281/zenodo.19406546
 
 The data record is restricted-access. Access will be granted for peer review, editorial assessment, and non-commercial academic research, subject to the terms listed on the record. The trained segmentation checkpoint is provided in this record as `best_transformer.pt`, and the accompanying scan-level metadata file is `metadata_0425.xlsx`. After access is granted, use `best_transformer.pt` as `--model-path` and `metadata_0425.xlsx`, or the released metadata spreadsheet with a `Raw_Data_ID` column, as `--atlas-existing`.
 
-For reproducible use, record the following for any downloaded artifacts (use the **Zenodo Version DOI** for software that matches the Git tag you used, e.g. **v1.0.1**; data DOI `10.5281/zenodo.19406546` as applicable):
+For reproducible use, record the following for any downloaded artifacts :
 - DOI or access URL
 - File name and version
 - SHA256 checksum
