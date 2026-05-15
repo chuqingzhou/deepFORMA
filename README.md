@@ -4,14 +4,14 @@ Code-only release for reproducible organoid MRI segmentation and FORMA database 
 
 This repository provides:
 - A CNN-Transformer hybrid segmentation model (`deepforma.model.TransUNet3D`)
-- A canonical atlas builder (v1.0) for organoid atlas construction (`scripts/build_database.py`)
+- A canonical atlas builder (v1.0.1) for organoid atlas construction (`scripts/build_database.py`)
 - Nine primary MRI-derived feature classes defined in `docs/metrics.md`, together with auxiliary per-component statistics exported in the atlas table for reproducibility
 
 ## Code availability scope
 
 This repository is the core DeepFORMA software release. It includes model training, inference, connected-component demultiplexing, atlas construction, and feature extraction code.
 
-Chinese notes for reviewers (model folder — training vs inference, architecture outline): `deepforma/model/README.cn.md`.
+Additional model architecture and checkpoint-loading notes: `deepforma/model/README.md`. (Chinese: `deepforma/model/README.cn.md`.)
 
 ## Installation
 
@@ -51,11 +51,15 @@ python scripts/convert_nrrd_to_h5_raw.py --help
 
 ## Runnable demo
 
+The repository includes these runnable entry points under `scripts/`: `build_database.py`, `convert_nrrd_to_h5.py`, `convert_nrrd_to_h5_raw.py`, `create_demo_assets.py`, `run_demo.sh`, and `train_transformer_kfold.py`.
+
 The demo creates a small synthetic H5 volume, a minimal atlas metadata Excel file, and a demo-only checkpoint. It then runs the same `scripts/build_database.py` entry point used for the atlas export:
 
 ```bash
 bash scripts/run_demo.sh
 ```
+
+On a CPU-only laptop, the synthetic demo is expected to finish within approximately **1–3 minutes**; runtime may vary by hardware (GPU builds are typically faster for full-scale data, but this demo is small).
 
 Expected outputs:
 - `demo/output/predictions_connected_demo/DEMO001_connected.h5`
@@ -74,7 +78,7 @@ python scripts/build_database.py \
   --atlas-existing /ABS/PATH/TO/FORMA_Atlas_data0124_connect_id.xlsx \
   --out-root /ABS/PATH/TO/OUTPUT_DIR \
   --tag canonical_h5_minv100 \
-  --out-atlas-name FORMA_Atlas_v1.0.xlsx
+  --out-atlas-name FORMA_Atlas_v1.0.1.xlsx
 ```
 
 ## Build the database
@@ -101,7 +105,7 @@ python scripts/build_database.py \
   --atlas-existing /ABS/PATH/TO/FORMA_Atlas_data0124_connect_id.xlsx \
   --out-root /ABS/PATH/TO/OUTPUT_DIR \
   --tag canonical_h5_minv100 \
-  --out-atlas-name FORMA_Atlas_v1.0.xlsx
+  --out-atlas-name FORMA_Atlas_v1.0.1.xlsx
 ```
 
 Canonical defaults (v1.0):
@@ -114,7 +118,7 @@ Outputs:
 - `<out-root>/predictions_connected_<tag>/<sample>_connected.h5`
 - `<out-root>/wells_h5_<tag>/<sample>-C<id>.h5`
 - `<out-root>/atlas/_atlas_rows_partial_<tag>.csv` (resumable)
-- `<out-root>/atlas/FORMA_Atlas_v1.0.xlsx` (final export; name configurable via `--out-atlas-name`)
+- `<out-root>/atlas/FORMA_Atlas_v1.0.1.xlsx` (final export; name configurable via `--out-atlas-name`)
 
 ## Feature definitions (nine primary classes)
 
@@ -134,12 +138,13 @@ See `scripts/train_transformer_kfold.py --help` for usage.
 
 This repository does not ship unrestricted raw MRI volumes or trained weights as part of the Git tree. Versioned downloads are archived on Zenodo:
 
-- **Software** (this code release, v1.0.0): https://doi.org/10.5281/zenodo.20184803
+- **Software** (repository release **v1.0.1**; Zenodo concept / landing): https://doi.org/10.5281/zenodo.20184803  
+  For journal **Code availability**, cite the **Version DOI** displayed on Zenodo for the upload created from GitHub **release v1.0.1** once you archive that tag (Springer Nature guidance: a GitHub URL alone is not a sufficient permanent identifier). Update the software DOI in your bibliography if Zenodo mints a new version-specific DOI for that upload.
 - **Restricted supporting data** (raw MRI subset, segmentation annotations, scan-level metadata, and files such as `best_transformer.pt` / `metadata_0425.xlsx`; access per record terms): https://doi.org/10.5281/zenodo.19406546
 
 The data record is restricted-access. Access will be granted for peer review, editorial assessment, and non-commercial academic research, subject to the terms listed on the record. The trained segmentation checkpoint is provided in this record as `best_transformer.pt`, and the accompanying scan-level metadata file is `metadata_0425.xlsx`. After access is granted, use `best_transformer.pt` as `--model-path` and `metadata_0425.xlsx`, or the released metadata spreadsheet with a `Raw_Data_ID` column, as `--atlas-existing`.
 
-For reproducible use, record the following for any downloaded artifacts (software DOI `10.5281/zenodo.20184803`, data DOI `10.5281/zenodo.19406546` as applicable):
+For reproducible use, record the following for any downloaded artifacts (use the **Zenodo Version DOI** for software that matches the Git tag you used, e.g. **v1.0.1**; data DOI `10.5281/zenodo.19406546` as applicable):
 - DOI or access URL
 - File name and version
 - SHA256 checksum
@@ -157,12 +162,12 @@ The code has been tested with:
 
 If you use this software, cite the **Zenodo software archive** (DOI below). When you use the restricted materials, cite the **supporting data record** as well.
 
-Zenodo software archive (v1.0.0):
+Zenodo software archive (**v1.0.1**; replace the DOI URL with the **Version DOI** shown on Zenodo for the v1.0.1 upload when available):
 
 ```text
 Zhou, C., Ren, X., Gao, S., Jiang, Y., Tian, X., Zhao, J., Fu, M.,
 Wang, Q., Zhao, L., Wang, Q., Guo, W., Ni, P., & Li, T. (2026).
-deepFORMA v1.0.0: organoid MRI segmentation, demultiplexing, and FORMA atlas construction
+deepFORMA v1.0.1: organoid MRI segmentation, demultiplexing, and FORMA atlas construction
 [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.20184803
 ```
 

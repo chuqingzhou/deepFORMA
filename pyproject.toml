@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "deepforma"
-version = "1.0.0"
+version = "1.0.1"
 description = "Minimal, reproducible code for FORMA organoid MRI segmentation and database construction."
 readme = "README.md"
 requires-python = ">=3.9"
@@ -63,5 +63,5 @@ Repository = "https://github.com/chuqingzhou/deepFORMA"
 packages = ["deepforma", "deepforma.features", "deepforma.io", "deepforma.model", "deepforma.segmentation"]
 
 [tool.setuptools.package-data]
-deepforma.model = ["README.cn.md"]
+deepforma.model = ["README.md", "README.cn.md"]
 

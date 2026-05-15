@@ -1,6 +1,6 @@
 cff-version: 1.2.0
-title: "deepFORMA v1.0.0: organoid MRI segmentation, demultiplexing, and FORMA atlas construction"
-message: "If you use this software, cite the Zenodo software record (10.5281/zenodo.20184803) and, when applicable, the supporting data record (10.5281/zenodo.19406546)."
+title: "deepFORMA v1.0.1: organoid MRI segmentation, demultiplexing, and FORMA atlas construction"
+message: "If you use this software, cite the Zenodo software record for the matching Git tag (prefer the Version DOI shown on Zenodo for release v1.0.1 once archived). Also cite the supporting data record (10.5281/zenodo.19406546) when applicable."
 type: software
 authors:
   - family-names: Zhou
@@ -33,8 +33,8 @@ repository-code: "https://github.com/chuqingzhou/deepFORMA"
 url: "https://github.com/chuqingzhou/deepFORMA"
 doi: "10.5281/zenodo.20184803"
 license: MIT
-version: 1.0.0
-date-released: "2026-05-13"
+version: 1.0.1
+date-released: "2026-05-14"
 abstract: "Core software release for DeepFORMA MRI-based brain organoid segmentation, demultiplexing, atlas construction, and feature extraction."
 keywords:
   - brain organoid
