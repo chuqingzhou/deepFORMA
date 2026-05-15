@@ -162,13 +162,13 @@ The code has been tested with:
 
 If you use this software, cite the **Zenodo software archive** (DOI below). When you use the restricted materials, cite the **supporting data record** as well.
 
-Zenodo software archive (**v1.0.1**; replace the DOI URL with the **Version DOI** shown on Zenodo for the v1.0.1 upload when available):
+Zenodo software archive:
 
 ```text
 Zhou, C., Ren, X., Gao, S., Jiang, Y., Tian, X., Zhao, J., Fu, M.,
 Wang, Q., Zhao, L., Wang, Q., Guo, W., Ni, P., & Li, T. (2026).
 deepFORMA v1.0.1: organoid MRI segmentation, demultiplexing, and FORMA atlas construction
-[Computer software]. Zenodo. https://doi.org/10.5281/zenodo.20184803
+[Computer software]. Zenodo. https://doi.org/10.5281/zenodo.20195208
 ```
 
 The supporting restricted data record is:
