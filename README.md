@@ -130,13 +130,14 @@ See `scripts/train_transformer_kfold.py --help` for usage.
 
 ## Data and model weights
 
-This code release does not include unrestricted raw MRI data or trained model weights. Supporting data for peer review, editorial assessment, and non-commercial academic research are available through the restricted Zenodo record:
+This repository does not ship unrestricted raw MRI volumes or trained weights as part of the Git tree. Versioned downloads are archived on Zenodo:
 
-- Raw MRI subset, segmentation annotations, and scan-level metadata supporting DeepFORMA: https://doi.org/10.5281/zenodo.19406546
+- **Software** (this code release, v1.0.0): https://doi.org/10.5281/zenodo.20184803
+- **Restricted supporting data** (raw MRI subset, segmentation annotations, scan-level metadata, and files such as `best_transformer.pt` / `metadata_0425.xlsx`; access per record terms): https://doi.org/10.5281/zenodo.19406546
 
-The Zenodo record is restricted-access. Access will be granted for peer review, editorial assessment, and non-commercial academic research, subject to the terms listed on the record. The trained segmentation checkpoint is provided in this record as `best_transformer.pt`, and the accompanying scan-level metadata file is `metadata_0425.xlsx`. After access is granted, use `best_transformer.pt` as `--model-path` and `metadata_0425.xlsx`, or the released metadata spreadsheet with a `Raw_Data_ID` column, as `--atlas-existing`.
+The data record is restricted-access. Access will be granted for peer review, editorial assessment, and non-commercial academic research, subject to the terms listed on the record. The trained segmentation checkpoint is provided in this record as `best_transformer.pt`, and the accompanying scan-level metadata file is `metadata_0425.xlsx`. After access is granted, use `best_transformer.pt` as `--model-path` and `metadata_0425.xlsx`, or the released metadata spreadsheet with a `Raw_Data_ID` column, as `--atlas-existing`.
 
-For reproducible use, record the following for any downloaded artifacts:
+For reproducible use, record the following for any downloaded artifacts (software DOI `10.5281/zenodo.20184803`, data DOI `10.5281/zenodo.19406546` as applicable):
 - DOI or access URL
 - File name and version
 - SHA256 checksum
@@ -152,13 +153,23 @@ The code has been tested with:
 
 ## Citation
 
-If you use this software, please cite the accompanying DeepFORMA manuscript and this software release.
+If you use this software, please cite the accompanying DeepFORMA manuscript, the Zenodo software archive, and the supporting data record where relevant.
 
 ```text
 Zhou, C., Ren, X., Gao, S., Jiang, Y., Tian, X., Zhao, J., Fu, M.,
 Wang, Q., Zhao, L., Wang, Q., Guo, W., Ni, P., & Li, T.
 DeepFORMA: a multidimensional MRI platform for longitudinal phenotyping
 and trajectory analysis of human brain organoids.
+```
+
+Zenodo software archive (v1.0.0):
+
+```text
+Zhou, C., Ren, X., Gao, S., Jiang, Y., Tian, X., Zhao, J., Fu, M.,
+Wang, Q., Zhao, L., Wang, Q., Guo, W., Ni, P., & Li, T. (2026).
+DeepFORMA: a multidimensional MRI platform for longitudinal phenotyping
+and trajectory analysis of human brain organoids (v1.0.0) [Computer software].
+Zenodo. https://doi.org/10.5281/zenodo.20184803
 ```
 
 The supporting restricted data record is:

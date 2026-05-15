@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 title: "DeepFORMA: a multidimensional MRI platform for longitudinal phenotyping and trajectory analysis of human brain organoids"
-message: "If you use this software, please cite the accompanying DeepFORMA manuscript and this software release."
+message: "If you use this software, please cite the accompanying DeepFORMA manuscript, the Zenodo software record (10.5281/zenodo.20184803), and the supporting data record (10.5281/zenodo.19406546) where relevant."
 type: software
 authors:
   - family-names: Zhou
@@ -31,6 +31,7 @@ authors:
     given-names: Tao
 repository-code: "https://github.com/chuqingzhou/deepFORMA"
 url: "https://github.com/chuqingzhou/deepFORMA"
+doi: "10.5281/zenodo.20184803"
 license: MIT
 version: 1.0.0
 date-released: "2026-05-13"

@@ -71,8 +71,8 @@ Scope
 
 6) Data and model weights
    - This repository does not include unrestricted raw data or trained model weights.
-   - Supporting restricted data are available at:
-     https://doi.org/10.5281/zenodo.19406546
+   - Zenodo software archive (this code release): https://doi.org/10.5281/zenodo.20184803
+   - Supporting restricted data: https://doi.org/10.5281/zenodo.19406546
    - Record DOI/access URL, file version, SHA256 checksum, access date, and
      usage restrictions for any downloaded artifacts.
 
